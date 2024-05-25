@@ -6,5 +6,15 @@ type AppProviderProps = {
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  return <Router>{children}</Router>;
+  return (
+    <React.Suspense
+      fallback={
+        <div className="flex items-center justify-center w-screen h-screen">
+          loading...
+        </div>
+      }
+    >
+      <Router>{children}</Router>
+    </React.Suspense>
+  );
 };

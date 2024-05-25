@@ -1,8 +1,11 @@
-import { About } from '@/features/About';
-import { AboutChild1, AboutChild2 } from '@/features/About/components';
-import { Home } from '@/features/Home';
-import { NotFound } from '@/features/misc';
+import { lazyImport } from '@/utils/lazyImport';
 import { useRoutes } from 'react-router-dom';
+
+const { Home } = lazyImport(() => import('@/features/Home'), 'Home');
+const { About } = lazyImport(() => import('@/features/About'), 'About');
+const { AboutChild1 } = lazyImport(() => import('@/features/About/components'), 'AboutChild1');
+const { AboutChild2 } = lazyImport(() => import('@/features/About/components'), 'AboutChild2');
+const { NotFound } = lazyImport(() => import('@/features/misc/NotFound'), 'NotFound');
 
 export const AppRoutes = () => {
   const routes = [

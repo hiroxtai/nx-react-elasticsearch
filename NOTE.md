@@ -1,8 +1,8 @@
 # NOTE
 
-## フォルダ構造
+[bulletproof-react](https://github.com/alan2207/bulletproof-react) を参考に作成
 
-[bulletproof-react](https://github.com/alan2207/bulletproof-react/blob/master/docs/project-structure.md) を参考に作成
+## フォルダ構造
 
 ```sh
 src
@@ -31,6 +31,7 @@ src
 ```json
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
@@ -43,4 +44,13 @@ src
 ```tsx
 import { AppProvider } from '@/providers/app';
 import { AppRoutes } from '@/routes';
+```
+
+## lazyImport
+
+```tsx
+const { Home } = lazyImport(() => import('@/features/Home'), 'Home');
+const { About } = lazyImport(() => import('@/features/About'), 'About');
+
+const routes = [{ path: '/', element: <Home /> }];
 ```
