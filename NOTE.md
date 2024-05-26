@@ -54,3 +54,34 @@ const { About } = lazyImport(() => import('@/features/About'), 'About');
 
 const routes = [{ path: '/', element: <Home /> }];
 ```
+
+## elasticsearch-browser
+
+elasticsearch を cors に対応させておく。
+
+```sh
+npm install --save elasticsearch elasticsearch-browser
+```
+
+`node_modules/@types/elasticsearch/index.d.ts` の内容をコピーして `src/types/elasticsearch-browser.d.ts` を作成
+
+以下のコードでアクセスできることは確認
+
+```tsx
+useEffect(() => {
+  const client = new elasticsearch.Client({ host: 'http://localhost:9200' });
+
+  (async () => {
+    const result = await client.search({
+      index: 'kibana_sample_data_logs',
+      body: {
+        query: {
+          match_all: {},
+        },
+      },
+    });
+
+    console.log(result);
+  })();
+}, []);
+```
