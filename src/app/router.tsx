@@ -1,7 +1,3 @@
-import { About } from '@/features/About';
-import { AboutChild1, AboutChild2 } from '@/features/About/components';
-import { Elasticsearch } from '@/features/Elasticsearch';
-import { Home } from '@/features/Home';
 import { NotFound } from '@/features/misc';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -9,30 +5,48 @@ export const createRouter = () => {
   return createBrowserRouter([
     {
       path: '/',
-      element: <Home />,
+      lazy: async () => {
+        const { Home } = await import('@/features/Home');
+        return { Component: Home };
+      },
       errorElement: <NotFound />,
     },
     {
       path: '/about',
-      element: <About />,
+      lazy: async () => {
+        const { About } = await import('@/features/About');
+        return { Component: About };
+      },
       children: [
         {
           path: '',
-          element: <AboutChild1 />,
+          lazy: async () => {
+            const { AboutChild1 } = await import('@/features/About/components/AboutChild1');
+            return { Component: AboutChild1 };
+          },
         },
         {
           path: 'about1',
-          element: <AboutChild1 />,
+          lazy: async () => {
+            const { AboutChild1 } = await import('@/features/About/components/AboutChild1');
+            return { Component: AboutChild1 };
+          },
         },
         {
           path: 'about2',
-          element: <AboutChild2 />,
+          lazy: async () => {
+            const { AboutChild2 } = await import('@/features/About/components/AboutChild2');
+            return { Component: AboutChild2 };
+          },
         },
       ],
     },
     {
       path: 'elastic',
-      element: <Elasticsearch />,
+      lazy: async () => {
+        const { Elasticsearch } = await import('@/features/Elasticsearch');
+        return { Component: Elasticsearch };
+      },
     },
   ]);
 };
