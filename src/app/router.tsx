@@ -19,7 +19,7 @@ export const createRouter = () => {
       },
       children: [
         {
-          path: '',
+          index: true,
           lazy: async () => {
             const { AboutChild1 } = await import('@/features/About/components/AboutChild1');
             return { Component: AboutChild1 };

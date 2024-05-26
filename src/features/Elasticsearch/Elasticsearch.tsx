@@ -1,27 +1,31 @@
 import elasticsearch from 'elasticsearch-browser';
-import { useEffect } from 'react';
+import { useQuery } from 'react-query';
 
 /* eslint-disable-next-line */
 export interface ElasticsearchProps {}
 
+const client = new elasticsearch.Client({
+  host: 'localhost:9200',
+  log: 'trace',
+});
+
+const fetchElasticData = async () => {
+  const response = await client.search({
+    index: 'kibana_sample_data_logs',
+    body: {
+      query: {
+        match_all: {},
+      },
+    },
+  });
+
+  return response.hits.hits;
+};
+
 export function Elasticsearch(props: ElasticsearchProps) {
-  useEffect(() => {
-    const client = new elasticsearch.Client({ host: 'http://localhost:9200' });
+  const { data, isLoading, error } = useQuery('elasticData', fetchElasticData);
 
-    (async () => {
-      const result = await client.search({
-        index: 'kibana_sample_data_logs',
-        body: {
-          query: {
-            match_all: {},
-          },
-        },
-      });
-
-      console.log(result);
-    })();
-  }, []);
-
+  console.log(data);
   return (
     <div>
       <h1>Welcome to Elasticsearch!</h1>
